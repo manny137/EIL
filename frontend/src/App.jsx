@@ -1,7 +1,7 @@
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './styles/styles.css'
-import LoginDialog from './_components/LoginDialog.jsx'
+import LoginDialog from './pages/LoginPage.jsx'
 
 function App() {
   return (
