@@ -1,0 +1,493 @@
+/* Video Section */
+.video-section {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  padding-top: 120px;
+}
+
+/* Three Boxes Section */
+.three-boxes-section {
+  background-color: white;
+  display: flex;
+  justify-content: space-evenly; /* Equal spacing between cards */
+  align-items: flex-start;
+  padding: 50px 20px 30px; /* reduced bottom padding for less gap from SVG */
+  flex-wrap: wrap;
+}
+
+.box {
+  width: 150px;
+  height: 150px;
+  background-color: #ffffff;
+  border: 2px solid #acc8df;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.box:hover {
+  transform: translateY(-5px);
+}
+
+.box img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+/* Wrapper for heading + link below each card */
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px; /* Equal margin between cards */
+}
+
+.card-wrapper h3 {
+  font-size: 20px;
+  margin: 12px 0 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: black;
+}
+
+.card-wrapper a {
+  color: black;
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.card-wrapper a:hover {
+  color: #333;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* SVG Section */
+.svg-section {
+  text-align: center;
+  padding: 20px 0; /* reduced padding for less gap */
+  background-color: #ffffff;
+}
+
+.svg-image {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Statistics Section */
+.stats-section {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 70px 20px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.stats-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 87, 153, 0.8); /* semi-transparent blue overlay */
+  z-index: 1;
+}
+
+.stats-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 30px; /* spacing between rows on smaller screens */
+  padding: 0 20px;
+}
+
+.stat-item {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+  margin-right: 20px;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  gap: 15px;
+  border-right: 2px solid #ffffff4d;
+  transition: transform 0.3s ease;
+}
+
+.stat-item.no-border {
+  border-right: none;
+  margin-right: 0;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon img {
+  filter: brightness(0) invert(1); /* makes image white */
+  transition: transform 0.3s ease;
+}
+
+.stat-icon img:hover {
+  transform: scale(1.1);
+}
+
+.stat-number {
+  font-size: 2.8rem;
+  line-height: 1;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.5px;
+}
+
+.stat-label {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.95;
+  line-height: 1.3;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .stats-container {
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+  }
+
+  .stat-item {
+    border-right: none;
+    margin-right: 0;
+  }
+}
+
+
+/* Global Presence Section */
+.global-presence-section {
+  background-color: #ffffff;
+  padding: 15px 20px;
+}
+
+.global-container {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 80px;
+}
+
+.content-section {
+  flex: 1;
+  max-width: 400px;
+}
+
+.main-title {
+  font-size: 42px;
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 50px;
+  color: #2c3e50;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.global-text {
+  color: #5ba3f5;
+  font-weight: 300;
+}
+
+.info-list {
+  margin-bottom: 40px;
+}
+
+.info-item {
+  padding: 16px 0;
+  border-bottom: 1px solid #588fc6;
+  font-size: 15px;
+  color: #4a5568;
+  font-weight: 400;
+}
+
+.learn-more-btn {
+  background: #5ba3f5;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.learn-more-btn:hover {
+  background: #4a90e2;
+  transform: translateY(-1px);
+}
+
+.map-section {
+  flex: 1.5;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.world-map-image {
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .global-container {
+    flex-direction: column;
+    gap: 40px;
+    padding: 0 20px;
+  }
+  
+  .main-title {
+    font-size: 34px;
+    text-align: center;
+  }
+  
+  .content-section {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .map-section {
+    width: 100%;
+  }
+
+  /* Statistics responsive adjustments */
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+  }
+  
+  .stat-number {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .three-boxes-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 40px 10px 20px;
+  }
+
+  .card-wrapper {
+    margin: 10px 0;
+  }
+
+  .global-presence-section {
+    padding: 40px 20px;
+  }
+
+  .main-title {
+    font-size: 26px;
+  }
+  
+  .info-item {
+    font-size: 14px;
+  }
+
+  .global-container {
+    gap: 30px;
+  }
+
+  /* Statistics responsive adjustments */
+  .stats-section {
+    padding: 60px 20px;
+  }
+  
+  .stats-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .stat-number {
+    font-size: 2.5rem;
+  }
+  
+  .stat-icon img {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-section {
+    padding: 40px 15px;
+  }
+  
+  .stat-item {
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .stat-label {
+    font-size: 0.85rem;
+  }
+  
+  .stat-icon img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.news-section {
+  padding: 34px 89px;
+  background-color: #ffffff;
+}
+
+.news-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 30px;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.news-left,
+.news-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.news-left {
+  padding-right: 20px;
+  justify-content: center;
+}
+
+.news-title {
+  color: #0074c9;
+  font-size: 24px;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.news-card {
+  display: flex;
+  background: #f9f9f9;
+  border-left: 4px solid #0074c9;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  align-items: center;
+}
+
+.news-card:hover {
+  background-color: #e6f2ff;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.news-date {
+  background-color: #0074c9;
+  color: #fff;
+  padding: 8px;
+  text-align: center;
+  margin-right: 15px;
+  width: 60px;
+  font-weight: bold;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.news-date .day {
+  font-size: 20px;
+}
+
+.news-date .month,
+.news-date .year {
+  font-size: 12px;
+}
+
+.news-text h3 {
+  font-size: 15.5px;
+  color: #222;
+  margin: 0;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.news-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.news-right img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  border-radius: 8px;
+}
