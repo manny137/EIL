@@ -1,50 +1,58 @@
+require('dotenv').config({ path: '../.env'});
 const express = require('express');
-const app = express();
-const drizzle = require('drizzle-orm/neon-http')
-const db = drizzle(process.env.DATABASE_URL);
+const { drizzle } = require('drizzle-orm/neon-http');
+const { neon } = require('@neondatabase/serverless');
 
-// middleware to parse JSON bodies
+const app = express();
+
+// Middleware to parse JSON bodies
 app.use(express.json());
 
-// dummy user data
+// Initialize Neon client
+const sql = neon(process.env.DATABASE_URL);
+
+// Initialize Drizzle with Neon client
+const db = drizzle(sql);
+
+// Dummy user data
 const users = {
   hr: [
-    { id: 1, username: 'hr1', password: 'password1',},
-    { id: 2, username: 'hr2', password: 'password2',}
+    { id: 1, username: 'hr1', password: 'password1' },
+    { id: 2, username: 'hr2', password: 'password2' }
   ],
   employee: [
-    { id: 1, username: 'emp1', password: 'password1',},
-    { id: 2, username: 'emp2', password: 'password2',}
+    { id: 1, username: 'emp1', password: 'password1' },
+    { id: 2, username: 'emp2', password: 'password2' }
   ]
 };
 
-// hr login route
+// HR login route
 app.post('/hr/login', (req, res) => {
   const { username, password } = req.body;
   const user = users.hr.find(u => u.username === username && u.password === password);
 
   if (user) {
-    // in a real application, generate a token or session here
-    res.json({ message: 'hr login successful', user });
+    // In a real application, generate a token or session here
+    res.json({ message: 'HR login successful', user });
   } else {
-    res.status(401).json({ message: 'invalid hr credentials' });
+    res.status(401).json({ message: 'Invalid HR credentials' });
   }
 });
 
-// employee Login route
+// Employee login route
 app.post('/employee/login', (req, res) => {
   const { username, password } = req.body;
   const user = users.employee.find(u => u.username === username && u.password === password);
 
   if (user) {
-    // in a real application, generate a token or session here
-    res.json({ message: 'employee login successful', user });
+    // In a real application, generate a token or session here
+    res.json({ message: 'Employee login successful', user });
   } else {
-    res.status(401).json({ message: 'invalid employee credentials' });
+    res.status(401).json({ message: 'Invalid employee credentials' });
   }
 });
 
-// start server
+// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
