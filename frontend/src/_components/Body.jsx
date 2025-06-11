@@ -1,14 +1,12 @@
 import React from 'react';
 import '../styles/Body.css';
 
-// Import images
 import sec1 from '../assets/images/sec1.png';
 import sec2 from '../assets/images/sec2.png';
 import sec3 from '../assets/images/sec3.png';
 import refinery from '../assets/refinery.svg';
 import globalMap from '../assets/map.gif';
 
-// Import statistics assets
 import statsBackground from '../assets/images/counter-bg.jpg';
 import globeIcon from '../assets/images/icon.png';
 import gearIcon from '../assets/images/icon2.png';
@@ -19,7 +17,6 @@ import employee from '../assets/images/employees.png';
 const Body = () => {
   return (
     <main>
-      {/* Video Section */}
       <section className="video-section">
         <video className="background-video" autoPlay loop muted playsInline>
           <source src="/banner.mp4" type="video/mp4" />
@@ -28,7 +25,6 @@ const Body = () => {
         <div className="video-overlay"></div>
       </section>
 
-      {/* Three Boxes Section */}
       <section className="three-boxes-section">
         <div className="card-wrapper">
           <div className="box">
@@ -53,12 +49,10 @@ const Body = () => {
         </div>
       </section>
 
-      {/* SVG Image Below Boxes */}
       <section className="svg-section">
         <img src={refinery} alt="Decorative Background" className="svg-image" />
       </section>
 
-      {/* Global Presence Section */}
       <section className="global-presence-section">
         <div className="global-container">
           <div className="content-section">
@@ -82,7 +76,6 @@ const Body = () => {
         </div>
       </section>
 
-      {/* Statistics Section */}
       <section
   className="stats-section"
   style={{ backgroundImage: `url(${statsBackground})` }}

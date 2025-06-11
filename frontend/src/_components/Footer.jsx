@@ -1,12 +1,11 @@
 import React from "react";
 import { FaFacebookF, FaXTwitter, FaLinkedinIn, FaInstagram } from "react-icons/fa6";
-import "./Footer.css"; // Import the CSS file
+import "./Footer.css";
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-top">
-        {/* Social Icons */}
         <div className="footer-column social">
           <h4>Follow Us</h4>
           <div className="icons">
@@ -17,7 +16,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Column 1 */}
         <div className="footer-column">
           <p>▶ Lakshya Bharat Portal</p>
           <p>▶ Technical Brochures</p>
