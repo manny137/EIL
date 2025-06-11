@@ -3,16 +3,28 @@ import Header from './_components/Header.jsx';
 import Footer from './_components/Footer.jsx';
 import Body from './_components/Body.jsx';
 
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import EmployeeLogin from './pages/EmployeeLogin.jsx';
-import HrLogin from './pages/HrLogin.jsx';
-import EmployeeRegister from './pages/EmployeeRegister.jsx';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import EmployeeLogin from './pages/employeeLogin.jsx';
+import HrLogin from './pages/hrLogin.jsx';
+import EmployeeRegister from './pages/employeeRegister.jsx';
 
 function AppRoutes() {
   const location = useLocation();
-  const fullPageRoutes = ["/login/employee", "/login/hr", "/register/employee"];
 
-  const isFullPage = fullPageRoutes.includes(location.pathname);
+  // Only allow these full-page routes
+  const fullPageRoutes = [
+    "/login/employee",
+    "/login/hr",
+    "/register/employee"
+  ];
+
+  // Redirect to lowercase version if path is not lowercase
+  const lowerCasePath = location.pathname.toLowerCase();
+  if (location.pathname !== lowerCasePath) {
+    return <Navigate to={lowerCasePath} replace />;
+  }
+
+  const isFullPage = fullPageRoutes.includes(lowerCasePath);
 
   return (
     <>
