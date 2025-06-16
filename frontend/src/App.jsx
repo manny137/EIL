@@ -4,9 +4,9 @@ import Footer from './_components/Footer.jsx';
 import Body from './_components/Body.jsx';
 
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import EmployeeLogin from './pages/employeeLogin.jsx';
-import HrLogin from './pages/hrLogin.jsx';
-import EmployeeRegister from './pages/employeeRegister.jsx';
+import EmployeeLogin from './pages/EmployeeLogin.jsx';
+import HrLogin from './pages/HrLogin.jsx';
+import EmployeeRegister from './pages/EmployeeRegister.jsx';
 
 function AppRoutes() {
   const location = useLocation();

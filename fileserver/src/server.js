@@ -2,35 +2,64 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const app = express();
+const cors = require('cors');
 
+const app = express();
 const port = process.env.PORT || 3001;
 
+app.use(cors());
+app.use(express.json());
+
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const empId =  req.body.employeeId;
-    
-    const empDir = path.join(__dirname, '..', 'uploads', empId);
+  destination: (req, file, cb) => {
+    const empId = req.body.employeeId;
 
-    fs.mkdir(empDir, {recursive: true}, (err) => {
-      if(err) return cb(err);
-      cb(null, empDir);
-    })
+    if (!empId) return cb(new Error('Missing employeeId in form data'));
+
+    const safeId = empId.replace(/[^a-zA-Z0-9_-]/g, '_');
+    const dir = path.join(__dirname, '..', 'uploads', safeId);
+
+    fs.mkdir(dir, { recursive: true }, (err) => {
+      if (err) return cb(err);
+      cb(null, dir);
+    });
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    cb(null, file.fieldname + ext);
+    cb(null, file.fieldname + ext); 
   }
-})
+});
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage });
 
-app.post('/api/upload/', upload.single('adhaar'), (req, res) => {
-  res.json({
-    path: req.file.path
-  });
-})
+app.post(
+  '/api/upload',
+  upload.fields([
+    { name: 'aadhaar', maxCount: 1 },
+    { name: 'pan', maxCount: 1 }
+  ]),
+  (req, res) => {
+    const aadhaar = req.files['aadhaar']?.[0];
+    const pan = req.files['pan']?.[0];
+
+    if (!aadhaar || !pan) {
+      return res.status(400).json({
+        success: false,
+        message: 'Both Aadhaar and PAN files are required'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Files uploaded successfully',
+      files: {
+        aadhaar: aadhaar.path,
+        pan: pan.path
+      }
+    });
+  }
+);
 
 app.listen(port, () => {
-  console.log(`listening on port ${port}`);
-})
+  console.log(`📂 File upload server running at http://localhost:${port}`);
+});

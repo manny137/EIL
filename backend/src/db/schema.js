@@ -2,14 +2,12 @@ const { integer, varchar, pgSchema } = require("drizzle-orm/pg-core");
 
 const eil = pgSchema("eil");
 
-const usersTable = eil.table("tab2", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }).notNull(),
+const employee = eil.table("employee", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(), // used as employeeId
+  username: varchar({ length: 255 }).notNull().unique(),
+  password: varchar({ length: 255 }).notNull(), // hashed password
 });
 
-const bigTable = eil.table("tab1", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }).notNull(),
-});
-
-module.exports = { usersTable, bigTable };
+module.exports = {
+  employee,
+};
