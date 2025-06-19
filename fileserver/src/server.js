@@ -12,11 +12,11 @@ app.use(express.json());
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const empId = req.body.employeeId;
+    const empId = req.body.employeeId || req.query.employeeId;
 
     if (!empId) return cb(new Error('Missing employeeId in form data'));
 
-    const safeId = empId.replace(/[^a-zA-Z0-9_-]/g, '_');
+    const safeId = empId.toString().replace(/[^a-zA-Z0-9_-]/g, '_');
     const dir = path.join(__dirname, '..', 'uploads', safeId);
 
     fs.mkdir(dir, { recursive: true }, (err) => {
@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    cb(null, file.fieldname + ext); 
+    cb(null, `${file.fieldname}${ext}`);
   }
 });
 
@@ -39,13 +39,21 @@ app.post(
     { name: 'pan', maxCount: 1 }
   ]),
   (req, res) => {
-    const aadhaar = req.files['aadhaar']?.[0];
-    const pan = req.files['pan']?.[0];
+    const aadhaar = req.files?.['aadhaar']?.[0];
+    const pan = req.files?.['pan']?.[0];
+    const empId = req.body.employeeId || req.query.employeeId;
+
+    if (!empId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing employeeId in form data or query',
+      });
+    }
 
     if (!aadhaar || !pan) {
       return res.status(400).json({
         success: false,
-        message: 'Both Aadhaar and PAN files are required'
+        message: 'Both Aadhaar and PAN files are required',
       });
     }
 

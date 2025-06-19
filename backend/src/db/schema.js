@@ -1,13 +1,15 @@
-const { integer, varchar, pgSchema } = require("drizzle-orm/pg-core");
+const { pgTable, serial, text, timestamp, pgSchema } = require('drizzle-orm/pg-core');
 
-const eil = pgSchema("eil");
+const eil = pgSchema('eil');
 
-const employee = eil.table("employee", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(), // used as employeeId
-  username: varchar({ length: 255 }).notNull().unique(),
-  password: varchar({ length: 255 }).notNull(), // hashed password
+const tentativeEmployees = eil.table('tentative_employees', {
+  id: serial('id').primaryKey(),
+  firstName: text('first_name').notNull(),
+  lastName: text('last_name').notNull(),
+  personalEmail: text('personal_email').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
 });
 
 module.exports = {
-  employee,
+  tentativeEmployees
 };
