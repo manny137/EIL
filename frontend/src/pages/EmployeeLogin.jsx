@@ -100,13 +100,12 @@ export default function EmployeeLogin() {
               <div>
                 <label htmlFor="captcha" className="block mb-1 font-semibold text-gray-800">Captcha*</label>
                 <div className="flex items-center gap-2">
-                  {/* Captcha Display */}
-                  <div
+                  {/* Captcha Display */}                  <div
                     className="flex items-center bg-gray-100 px-2 py-1 rounded border border-gray-300 text-base font-mono font-semibold text-black select-none whitespace-nowrap"
                     draggable="false"
                   >
                     <FaShieldAlt className="mr-1 text-blue-600" />
-                    {captchaText} =
+                    {captchaText}
                   </div>
 
                   {/* Reload Button */}
