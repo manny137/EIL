@@ -14,6 +14,7 @@ const employee = pgTable('employee', {
   email: text('email').unique().notNull(),
   name: text('name').notNull(),
   dob: date('dob').notNull(),
+  dept: text('dept').notNull(),
   adhaarNo: varchar('adhaar_no', { length: 12 }).unique().notNull(),
   panNo: varchar('pan_no', { length: 10 }).unique().notNull(),
   verifiedBy: serial('verified_by'),
@@ -22,7 +23,7 @@ const employee = pgTable('employee', {
 
 const hr = pgTable('hr', {
   employeeId: serial('employee_id').primaryKey(),
-  dept: text('dept').notNull(),
+  
 });
 
 const userLogin = pgTable('user_login', {
