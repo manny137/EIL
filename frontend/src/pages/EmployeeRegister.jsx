@@ -29,7 +29,7 @@ export default function EmployeeRegister() {
       });
 
       const data = await res.json();
-      if (!data.success) throw new Error('Employee registration failed');
+      if (!data.success || !data.employeeId) throw new Error('Employee registration failed');
 
       const employeeId = data.employeeId;
 
@@ -53,7 +53,7 @@ export default function EmployeeRegister() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-[#f8f9fa] flex items-center justify-center px-4 py-8 overflow-hidden">
       <div className="flex flex-col items-center w-full max-w-md">
         <img src={logo} alt="EIL Logo" className="h-20 object-contain mb-4" />
         <div className="w-full bg-white rounded-lg border border-gray-200 shadow-lg">

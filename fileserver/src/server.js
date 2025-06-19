@@ -7,14 +7,18 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3001;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
+// Storage config
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const empId = req.body.employeeId || req.query.employeeId;
 
-    if (!empId) return cb(new Error('Missing employeeId in form data'));
+    if (!empId) {
+      return cb(new Error('Missing employeeId in form data'));
+    }
 
     const safeId = empId.toString().replace(/[^a-zA-Z0-9_-]/g, '_');
     const dir = path.join(__dirname, '..', 'uploads', safeId);
@@ -32,6 +36,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// Route: File Upload
 app.post(
   '/api/upload',
   upload.fields([
@@ -43,6 +48,7 @@ app.post(
     const pan = req.files?.['pan']?.[0];
     const empId = req.body.employeeId || req.query.employeeId;
 
+    // Validation
     if (!empId) {
       return res.status(400).json({
         success: false,
@@ -57,7 +63,7 @@ app.post(
       });
     }
 
-    res.json({
+    return res.json({
       success: true,
       message: 'Files uploaded successfully',
       files: {
@@ -68,6 +74,7 @@ app.post(
   }
 );
 
+// Start server
 app.listen(port, () => {
   console.log(`📂 File upload server running at http://localhost:${port}`);
 });
