@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const { pgTable, serial, text, varchar, date, timestamp } = require('drizzle-orm/pg-core');
 
 const pendingEmployee = pgTable('pending_employee', {
@@ -30,12 +31,27 @@ const userLogin = pgTable('user_login', {
   employeeId: serial('employee_id').primaryKey(),
   passwordHash: text('password_hash').notNull(),
   role: text('role').notNull(), // 'employee' or 'hr'
+=======
+const { pgTable, serial, text, timestamp, pgSchema } = require('drizzle-orm/pg-core');
+
+const eil = pgSchema('eil');
+
+const tentativeEmployees = eil.table('tentative_employees', {
+  id: serial('id').primaryKey(),
+  firstName: text('first_name').notNull(),
+  lastName: text('last_name').notNull(),
+  personalEmail: text('personal_email').notNull(),
+>>>>>>> 088f2260f7f5b56f19c40ef7e2135128b18ffc3b
   createdAt: timestamp('created_at').defaultNow(),
 });
 
 module.exports = {
+<<<<<<< HEAD
   pendingEmployee,
   employee,
   hr,
   userLogin,
+=======
+  tentativeEmployees
+>>>>>>> 088f2260f7f5b56f19c40ef7e2135128b18ffc3b
 };

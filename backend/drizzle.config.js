@@ -1,3 +1,4 @@
+// drizzle.config.js
 require('dotenv').config();
 const { defineConfig } = require('drizzle-kit');
 
@@ -8,5 +9,5 @@ module.exports = defineConfig({
   dbCredentials: {
     url: process.env.DATABASE_URL,
   },
-  schemaFilter: ['eil']
+  schemaFilter: ['eil'],
 });
