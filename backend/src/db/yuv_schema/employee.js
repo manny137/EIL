@@ -1,6 +1,4 @@
-const { pgTable, serial, varchar, date ,pgSchema} = require("drizzle-orm/pg-core");
-import { sql } from "drizzle-orm";
-
+const { serial, varchar, pgSchema} = require("drizzle-orm/pg-core");
 
 const eil = pgSchema('eil');
 
