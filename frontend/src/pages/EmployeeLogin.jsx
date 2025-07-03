@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaSyncAlt, FaShieldAlt } from 'react-icons/fa';
 import logo from '../assets/Login_Register_Logo.png';
 
@@ -11,6 +11,7 @@ export default function EmployeeLogin() {
   const [captchaAnswer, setCaptchaAnswer] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const fetchCaptcha = async () => {
     try {
@@ -30,8 +31,9 @@ export default function EmployeeLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (parseInt(captchaInput) !== captchaAnswer) {
-      setError('Incorrect captcha. Try again.');
+      setError('❌ Incorrect captcha. Please try again.');
       fetchCaptcha();
       return;
     }
@@ -44,11 +46,16 @@ export default function EmployeeLogin() {
       });
 
       const data = await res.json();
+
       if (!res.ok) throw new Error(data.message || 'Login failed');
 
-      alert('Login successful!');
+      // ✅ Save token and user info for ProtectedRoute
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify({ role: 'employee', employeeId: empId }));
+
+      navigate('/employee/dashboard');
     } catch (err) {
-      setError(err.message);
+      setError(`❌ ${err.message}`);
       fetchCaptcha();
     }
   };
@@ -100,15 +107,13 @@ export default function EmployeeLogin() {
               <div>
                 <label htmlFor="captcha" className="block mb-1 font-semibold text-gray-800">Captcha*</label>
                 <div className="flex items-center gap-2">
-                  {/* Captcha Display */}                  <div
+                  <div
                     className="flex items-center bg-gray-100 px-2 py-1 rounded border border-gray-300 text-base font-mono font-semibold text-black select-none whitespace-nowrap"
                     draggable="false"
                   >
                     <FaShieldAlt className="mr-1 text-blue-600" />
                     {captchaText}
                   </div>
-
-                  {/* Reload Button */}
                   <button
                     type="button"
                     onClick={fetchCaptcha}
@@ -117,8 +122,6 @@ export default function EmployeeLogin() {
                   >
                     <FaSyncAlt />
                   </button>
-
-                  {/* Captcha Answer Input */}
                   <input
                     id="captcha"
                     type="text"
@@ -132,32 +135,16 @@ export default function EmployeeLogin() {
               </div>
             </div>
 
-            {/* Error Message */}
             {error && <p className="text-red-600 text-sm font-medium">{error}</p>}
 
-            {/* Remember Me */}
-            <div className="flex items-center mb-2">
-              <input
-                id="remember-me"
-                type="checkbox"
-                checked={rememberMe}
-                onChange={() => setRememberMe(!rememberMe)}
-                className="mr-2"
-              />
-              <label htmlFor="remember-me" className="text-base font-semibold text-gray-800">Remember Me</label>
-            </div>
-
-            {/* Submit Button */}
             <button type="submit" className="w-full bg-[#007bff] hover:bg-[#0056b3] text-white py-2 rounded text-lg font-semibold transition-colors duration-200 mt-2">Sign In</button>
           </form>
 
-          {/* Footer Links */}
           <div className="flex justify-between px-8 pb-4 pt-4 text-sm">
             <a href="#" className="text-[#007bff] hover:underline hover:text-[#0056b3]">Forgot Password?</a>
             <a href="#" className="text-[#007bff] hover:underline hover:text-[#0056b3]">Forgot ID?</a>
           </div>
 
-          {/* Register */}
           <div className="w-full text-center mt-2 pb-4">
             <span className="text-gray-600">Don't have an account? </span>
             <Link to="/register/employee" className="text-[#007bff] hover:underline hover:text-[#0056b3] font-semibold">Register here</Link>

@@ -1,30 +1,46 @@
-import './styles/styles.css';
-import Header from './_components/Header.jsx';
-import Footer from './_components/Footer.jsx';
-import Body from './_components/Body.jsx';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import Header from './_components/Header';
+import Footer from './_components/Footer';
+import Body from './_components/Body';
 
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import EmployeeLogin from './pages/EmployeeLogin.jsx';
-import HrLogin from './pages/HrLogin.jsx';
-import EmployeeRegister from './pages/EmployeeRegister.jsx';
+import HRLogin from './pages/HrLogin';
+import HrDashboard from './pages/HRDashboard';
+import EmployeeLogin from './pages/EmployeeLogin';
+import EmployeeRegister from './pages/EmployeeRegister';
+import EmployeeDashboard from './pages/EmployeeDashboard';
+import Profile from './pages/EmployeeProfile';
+import LeaveForm from './pages/LeaveForm';
+import LeaveHistory from './pages/LeaveHistory';
+import BankDetails from './pages/BankDetails';
+
+import ProtectedRoute from './_components/ProtectedRoute';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
+}
 
 function AppRoutes() {
   const location = useLocation();
 
-  // Only allow these full-page routes
   const fullPageRoutes = [
-    "/login/employee",
-    "/login/hr",
-    "/register/employee"
+    '/login/hr',
+    '/login/employee',
+    '/register/employee',
+    '/hr/dashboard',
+    '/employee/dashboard',
+    '/employee/profile',
+    '/employee/leave',
+    '/employee/leaves/view',
+    '/employee/bank'
   ];
 
-  // Redirect to lowercase version if path is not lowercase
-  const lowerCasePath = location.pathname.toLowerCase();
-  if (location.pathname !== lowerCasePath) {
-    return <Navigate to={lowerCasePath} replace />;
-  }
-
-  const isFullPage = fullPageRoutes.includes(lowerCasePath);
+  const isFullPage = fullPageRoutes.some(route =>
+    location.pathname.toLowerCase().startsWith(route)
+  );
 
   return (
     <>
@@ -32,21 +48,67 @@ function AppRoutes() {
 
       <Routes>
         <Route path="/" element={<Body />} />
+
+        {/* Auth Pages */}
+        <Route path="/login/hr" element={<HRLogin />} />
         <Route path="/login/employee" element={<EmployeeLogin />} />
-        <Route path="/login/hr" element={<HrLogin />} />
         <Route path="/register/employee" element={<EmployeeRegister />} />
+
+        {/* Protected HR Route */}
+        <Route
+          path="/hr/dashboard"
+          element={
+            <ProtectedRoute role="hr">
+              <HrDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Protected Employee Routes */}
+        <Route
+          path="/employee/dashboard"
+          element={
+            <ProtectedRoute role="employee">
+              <EmployeeDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/profile"
+          element={
+            <ProtectedRoute role="employee">
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/leave"
+          element={
+            <ProtectedRoute role="employee">
+              <LeaveForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/leaves/view"
+          element={
+            <ProtectedRoute role="employee">
+              <LeaveHistory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/bank"
+          element={
+            <ProtectedRoute role="employee">
+              <BankDetails />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       {!isFullPage && <Footer />}
     </>
-  );
-}
-
-function App() {
-  return (
-    <Router>
-      <AppRoutes />
-    </Router>
   );
 }
 
