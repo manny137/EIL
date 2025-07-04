@@ -74,6 +74,18 @@ app.post(
   }
 );
 
+//Route: File Download
+app.get('/file/:id/:type', (req, res) => {
+  const { id, type } = req.params;
+  const filePath = path.join(__dirname, '..', 'uploads', id, `${type}.pdf`);
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      res.status(404).json({ error: 'File not found' });
+    }
+  });
+});
+
+
 // Start server
 app.listen(port, () => {
   console.log(`📂 File upload server running at http://localhost:${port}`);
