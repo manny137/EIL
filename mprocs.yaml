@@ -1,0 +1,19 @@
+procs:
+  backend:
+    cwd: ./backend/src/
+    cmd: ["nodemon", "server.js"]
+    autostart: true
+    stop: SIGINT
+
+  frontend:
+    cwd: ./frontend
+    cmd: ["npm", "run", "dev"]
+    autostart: true
+    stop: SIGINT
+
+  fileserver:
+    cwd: ./fileserver/src
+    cmd: ["nodemon", "server.js"]
+    autostart: true
+    stop: SIGINT
+

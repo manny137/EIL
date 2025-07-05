@@ -1,3 +1,5 @@
+require('dotenv').config({ path: '../.env' });
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
@@ -6,10 +8,23 @@ const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3001;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Auth middleware
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ message: 'Missing token' });
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: 'Invalid token' });
+    req.user = user;
+    next();
+  });
+}
 
 // Storage config
 const storage = multer.diskStorage({
@@ -75,7 +90,7 @@ app.post(
 );
 
 //Route: File Download
-app.get('/file/:id/:type', (req, res) => {
+app.get('/file/:id/:type', verifyToken, (req, res) => {
   const { id, type } = req.params;
   const filePath = path.join(__dirname, '..', 'uploads', id, `${type}.pdf`);
   res.sendFile(filePath, (err) => {
