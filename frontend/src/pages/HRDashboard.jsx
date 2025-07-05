@@ -1,44 +1,62 @@
 import React, { useEffect, useState } from 'react';
 
 export default function HrDashboard() {
-  const [pending, setPending] = useState([]);
-  const [bankDetails, setBankDetails] = useState([]);
-  const [leaveApps, setLeaveApps] = useState([]);
+	const [pending, setPending] = useState([]);
+	const [bankDetails, setBankDetails] = useState([]);
+	const [leaveApps, setLeaveApps] = useState([]);
 
-  const token = localStorage.getItem('token');
+	const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    fetch('http://localhost:3000/hr/pending-approvals', {
-      headers: { Authorization: `Bearer ${token}` }
-    }).then(res => res.json()).then(setPending);
+	useEffect(() => {
+		fetch('http://localhost:3000/hr/pending-approvals', {
+			headers: { Authorization: `Bearer ${token}` }
+		}).then(res => res.json()).then(setPending);
 
-    fetch('http://localhost:3000/hr/bank-details', {
-      headers: { Authorization: `Bearer ${token}` }
-    }).then(res => res.json()).then(setBankDetails);
+		fetch('http://localhost:3000/hr/bank-details', {
+			headers: { Authorization: `Bearer ${token}` }
+		}).then(res => res.json()).then(setBankDetails);
 
-    fetch('http://localhost:3000/hr/leaves', {
-      headers: { Authorization: `Bearer ${token}` }
-    }).then(res => res.json()).then(setLeaveApps);
-  }, [token]);
+		fetch('http://localhost:3000/hr/leaves', {
+			headers: { Authorization: `Bearer ${token}` }
+		}).then(res => res.json()).then(setLeaveApps);
+	}, [token]);
 
-  const handleAction = async (id, action) => {
-    const res = await fetch('http://localhost:3000/hr/approve', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ id, action }),
-    });
+	const handleOpenPdf = async (empId, type) => {
+		const token = localStorage.getItem('token');
+		const res = await fetch(`http://localhost:3001/file/${empId}/${type}`, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
 
-    const result = await res.json();
-    alert(result.message);
-    setPending(prev => prev.filter(emp => emp.id !== id));
-  };
+		if (!res.ok) {
+			alert('Failed to fetch file');
+			return;
+		}
 
-  const tableStyle = "w-full border text-sm text-black";
-  const thStyle = "p-2 border bg-gray-100 font-semibold text-left";
-  const tdStyle = "p-2 border";
+		const blob = await res.blob();
+		const fileURL = window.URL.createObjectURL(blob);
+		window.open(fileURL);  // opens in new tab
+	};
+
+	const handleAction = async (id, action) => {
+		const res = await fetch('http://localhost:3000/hr/approve', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`
+			},
+			body: JSON.stringify({ id, action }),
+		});
+
+		const result = await res.json();
+		alert(result.message);
+		setPending(prev => prev.filter(emp => emp.id !== id));
+	};
+
+	const tableStyle = "w-full border text-sm text-black";
+	const thStyle = "p-2 border bg-gray-100 font-semibold text-left";
+	const tdStyle = "p-2 border";
 
   return (
     <div className="min-h-screen bg-gray-50 p-8 text-black">
@@ -57,29 +75,47 @@ export default function HrDashboard() {
                   <th className={thStyle}>ID</th>
                   <th className={thStyle}>Name</th>
                   <th className={thStyle}>Email</th>
+                  <th className={thStyle}>Aadhaar</th>
+                  <th className={thStyle}>Pan</th>
                   <th className={thStyle}>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {pending.map(emp => (
-                  <tr key={emp.id}>
-                    <td className={tdStyle}>{emp.id}</td>
-                    <td className={tdStyle}>{emp.firstName} {emp.lastName}</td>
-                    <td className={tdStyle}>{emp.personalEmail}</td>
-                    <td className={tdStyle}>
-                      <button
-                        className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded mr-2"
-                        onClick={() => handleAction(emp.id, 'approve')}
-                      >
-                        Approve
-                      </button>
-                      <button
-                        className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
-                        onClick={() => handleAction(emp.id, 'reject')}
-                      >
-                        Reject
-                      </button>
-                    </td>
+		  {pending.map(emp => ( 
+			  <tr key={emp.id}>
+			  <td className={tdStyle}>{emp.id}</td>
+			  <td className={tdStyle}>{emp.firstName} {emp.lastName}</td>
+			  <td className={tdStyle}>{emp.personalEmail}</td>
+			  <td className={tdStyle}>
+			  <button
+			  onClick={() => handleOpenPdf(emp.id, 'aadhaar')}
+			  className="text-blue-600 underline hover:text-blue-800"
+			  >
+			  Aadhaar
+			  </button>
+			  </td>
+			  <td className={tdStyle}>
+			  <button
+			  onClick={() => handleOpenPdf(emp.id, 'pan')}
+			  className="text-blue-600 underline hover:text-blue-800"
+			  >
+			  PAN
+			  </button>
+			  </td>
+			  <td className={tdStyle}>
+			  <button
+			  className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded mr-2"
+			  onClick={() => handleAction(emp.id, 'approve')}
+			  >
+			  Approve
+			  </button>
+			  <button
+			  className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
+			  onClick={() => handleAction(emp.id, 'reject')}
+			  >
+			  Reject
+			  </button>
+			  </td>
                   </tr>
                 ))}
               </tbody>

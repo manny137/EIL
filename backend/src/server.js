@@ -106,6 +106,7 @@ app.post('/login/hr', async (req, res) => {
 /* ----------- HR: Approve or Reject Employee ----------- */
 app.get('/hr/pending-approvals', async (req, res) => {
   const data = await db.select().from(tentativeEmployees);
+  console.log(data);
   res.json(data);
 });
 

@@ -1,4 +1,9 @@
 procs:
+  drizzle:
+    cwd: ./backend
+    cmd: ["npx", "drizzle-kit", "studio"]
+    autostart: true
+    stop: SIGINT
   backend:
     cwd: ./backend/src/
     cmd: ["nodemon", "server.js"]
