@@ -106,7 +106,6 @@ app.post('/login/hr', async (req, res) => {
 /* ----------- HR: Approve or Reject Employee ----------- */
 app.get('/hr/pending-approvals', async (req, res) => {
   const data = await db.select().from(tentativeEmployees);
-  console.log(data);
   res.json(data);
 });
 
@@ -120,10 +119,8 @@ app.post('/hr/approve', async (req, res) => {
     let baseEmail = `${emp.firstName.toLowerCase()}.${emp.lastName.toLowerCase()}@eil.co.in`;
     let email = baseEmail;
 
-    // 🔎 Check for email conflict
     const existing = await db.select().from(employees).where(eq(employees.orgEmail, email));
     if (existing.length > 0) {
-      // 🔁 Email taken, append ID to make unique
       email = `${emp.firstName.toLowerCase()}.${emp.lastName.toLowerCase()}${emp.id}@eil.co.in`;
     }
 
@@ -164,7 +161,6 @@ app.post('/hr/approve', async (req, res) => {
   }
 });
 
-
 /* ------------------- PROFILE ------------------- */
 app.get('/employee/profile', verifyToken, async (req, res) => {
   const { employeeId } = req.user;
@@ -184,7 +180,7 @@ app.put('/employee/update-profile', verifyToken, async (req, res) => {
 
     const updateFields = {
       ...(phone && { phone }),
-      ...(dob && { dob: new Date(dob) }),  
+      ...(dob && { dob: new Date(dob) }),
       ...(address && { address }),
       ...(gender && { gender }),
       ...(dept && { dept }),
@@ -193,7 +189,7 @@ app.put('/employee/update-profile', verifyToken, async (req, res) => {
       ...(firstName && { firstName }),
       ...(lastName && { lastName }),
       ...(personalEmail && { personalEmail }),
-      updatedAt: new Date() 
+      updatedAt: new Date()
     };
 
     await db.update(employees)
@@ -206,7 +202,6 @@ app.put('/employee/update-profile', verifyToken, async (req, res) => {
     res.status(500).json({ message: '❌ Failed to update profile' });
   }
 });
-
 
 /* ------------------- BANK DETAILS ------------------- */
 app.post('/employee/bank', verifyToken, async (req, res) => {

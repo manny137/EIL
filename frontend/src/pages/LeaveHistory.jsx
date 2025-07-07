@@ -13,7 +13,7 @@ export default function LeaveHistory() {
       const data = await res.json();
       setHistory(data);
     } else {
-      alert('Failed to load leave history');
+      alert('❌ Failed to load leave history');
     }
   };
 
@@ -22,20 +22,21 @@ export default function LeaveHistory() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-      <div className="max-w-4xl w-full bg-white p-6 rounded shadow border">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">My Leave History</h2>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-5xl bg-white p-10 rounded-xl shadow-lg border text-black">
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">My Leave History</h2>
+
         {history.length === 0 ? (
-          <p className="text-center text-gray-600">No leave records found.</p>
+          <p className="text-center text-gray-500 text-lg">No leave records found.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full border text-sm text-left text-gray-800">
-              <thead className="bg-gray-200">
+            <table className="w-full border border-gray-300 text-center text-sm">
+              <thead className="bg-gray-200 text-gray-700">
                 <tr>
-                  <th className="p-2 border">From Date</th>
-                  <th className="p-2 border">To Date</th>
-                  <th className="p-2 border">Days</th>
-                  <th className="p-2 border">Reason</th>
+                  <th className="p-3 border">From Date</th>
+                  <th className="p-3 border">To Date</th>
+                  <th className="p-3 border">Total Days</th>
+                  <th className="p-3 border">Reason</th>
                 </tr>
               </thead>
               <tbody>
@@ -44,10 +45,10 @@ export default function LeaveHistory() {
                     Math.floor((new Date(leave.toDate) - new Date(leave.fromDate)) / (1000 * 60 * 60 * 24)) + 1;
                   return (
                     <tr key={leave.id} className="hover:bg-gray-50">
-                      <td className="p-2 border">{leave.fromDate}</td>
-                      <td className="p-2 border">{leave.toDate}</td>
-                      <td className="p-2 border">{days}</td>
-                      <td className="p-2 border">{leave.reason}</td>
+                      <td className="p-3 border">{leave.fromDate}</td>
+                      <td className="p-3 border">{leave.toDate}</td>
+                      <td className="p-3 border">{days}</td>
+                      <td className="p-3 border whitespace-pre-wrap break-words">{leave.reason}</td>
                     </tr>
                   );
                 })}
