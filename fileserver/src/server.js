@@ -10,11 +10,9 @@ const app = express();
 const port = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Auth middleware
 function verifyToken(req, res, next) {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'Missing token' });
@@ -26,7 +24,6 @@ function verifyToken(req, res, next) {
   });
 }
 
-// Storage config
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const empId = req.body.employeeId || req.query.employeeId;
@@ -49,21 +46,37 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage });
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'application/pdf') {
+    cb(null, true);
+  } else {
+    cb(new Error('Only PDF files are allowed!'), false);
+  }
+};
 
-// Route: File Upload
+const upload = multer({ 
+  storage,
+  fileFilter 
+});
+
 app.post(
   '/api/upload',
-  upload.fields([
-    { name: 'aadhaar', maxCount: 1 },
-    { name: 'pan', maxCount: 1 }
-  ]),
+  (req, res, next) => {
+    upload.fields([
+      { name: 'aadhaar', maxCount: 1 },
+      { name: 'pan', maxCount: 1 }
+    ])(req, res, function (err) {
+      if (err instanceof multer.MulterError || err) {
+        return res.status(400).json({ success: false, message: err.message });
+      }
+      next();
+    });
+  },
   (req, res) => {
     const aadhaar = req.files?.['aadhaar']?.[0];
     const pan = req.files?.['pan']?.[0];
     const empId = req.body.employeeId || req.query.employeeId;
 
-    // Validation
     if (!empId) {
       return res.status(400).json({
         success: false,
@@ -89,19 +102,21 @@ app.post(
   }
 );
 
-//Route: File Download
 app.get('/file/:id/:type', verifyToken, (req, res) => {
   const { id, type } = req.params;
-  const filePath = path.join(__dirname, '..', 'uploads', id, `${type}.pdf`);
-  res.sendFile(filePath, (err) => {
-    if (err) {
-      res.status(404).json({ error: 'File not found' });
-    }
+  const dirPath = path.join(__dirname, '..', 'uploads', id);
+
+  fs.readdir(dirPath, (err, files) => {
+    if (err) return res.status(404).json({ error: 'Directory not found' });
+
+    const matchingFile = files.find(file => file.startsWith(type + '.'));
+    if (!matchingFile) return res.status(404).json({ error: 'File not found' });
+
+    const filePath = path.join(dirPath, matchingFile);
+    res.sendFile(filePath);
   });
 });
 
-
-// Start server
 app.listen(port, () => {
   console.log(`📂 File upload server running at http://localhost:${port}`);
 });
