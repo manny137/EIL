@@ -94,56 +94,58 @@ Dev Tools
 # 🔌 Project Setup
 
 1. Clone the Repository
-
+```
 git clone https://github.com/manny137/EIL.git
 cd EIL
+
+```
 
 2. Install Dependencies
 
 Backend
-
+```
 cd backend
 npm install
-
+```
 File Server
-
+```
 cd file-server
 npm install
-
+```
 Frontend
-
+```
 cd frontend
 npm install
-
+```
 3. Environment Variables
-
+```
 Create .env files for backend & file server:
-
+```
 Backend
-
+```
 JWT_SECRET=your_secret
 EMAIL_USER=your_email
 EMAIL_PASS=your_email_password
 DATABASE_URL=postgres_connection_url
-
+```
 File Server
-
+```
 UPLOAD_DIR=./uploads
-
+```
 4. Start the Servers
 
 Backend:
-
+```
 npm start
-
+```
 File Server:
-
+```
 node index.js
-
+```
 Frontend:
-
+```
 npm run dev
-
+```
 
 
 # 🧪 Testing
