@@ -3,7 +3,6 @@
 A full-stack Employee Management System (EMS) built during industrial training at Engineers India Limited (EIL).
 The system digitalizes employee onboarding, document verification, HR approvals, leave management, and secure role-based dashboards using a modern JavaScript stack.
 
-⸻
 
 # 🚀 Features
 
@@ -45,8 +44,6 @@ HR Dashboard
 	•	bank_details
 	•	leave_applications
 
-⸻
-
 # 🏗️ Tech Stack
 
 Frontend
@@ -73,7 +70,6 @@ Dev Tools
 	•	Postman
 	•	Git & GitHub
 
-⸻
 
 # 📚 System Architecture & Flow
 
@@ -94,7 +90,6 @@ Dev Tools
 	5.	Employee logs in using new credentials
 	6.	Employee can update profile, bank details, apply for leave
 
-⸻
 
 # 🔌 Project Setup
 
@@ -150,7 +145,6 @@ Frontend:
 npm run dev
 
 
-⸻
 
 # 🧪 Testing
 
@@ -160,7 +154,7 @@ As described in the report (page 13  ￼):
 	•	Integration Testing for combined subsystems
 	•	System Testing covering complete workflow
 
-⸻
+
 
 # 💡 Observations
 
@@ -170,7 +164,7 @@ As described in the report (page 13  ￼):
 	•	Unstructured document handling complicates verification
 	•	HR workflows lack automation
 
-⸻
+
 
 ✔️ Recommendations
 	•	Deploy to cloud (Vercel + Neon)
@@ -180,7 +174,7 @@ As described in the report (page 13  ￼):
 	•	Structured document storage
 	•	Add bank/leave service forms
 
-⸻
+
 
 # 🔮 Future Enhancements
 
@@ -193,15 +187,16 @@ As described in the report (page 13  ￼):
 	•	Notification system (email/SMS)
 	•	Two-factor authentication (2FA)
 
-⸻
+
 
 # 🏁 Conclusion
 
 The Employee Management System modernizes HR operations by automating onboarding, approvals, document verification, and leave processing.
 It provides secure role-based workflows, enhances efficiency, reduces errors, and lays a scalable foundation for future upgrades.
 
-⸻
 
 # 🔗 GitHub Repository
 
 https://github.com/manny137/EIL  ￼
+
+# Visit the website at: https://eil-ten.vercel.app/#
